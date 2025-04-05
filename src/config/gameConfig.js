@@ -1,11 +1,32 @@
 const prices = {
-  // Example prices configuration (already set)
-  cow: { buy: 50, dailyCost: 5, dailyRange: [4, 10] },
-  pig: { buy: 40, dailyCost: 4, dailyRange: [3, 8] },
-  corn: { buy: 30, dailyCost: 3, dailyRange: [2, 6] },
-  wheat: { buy: 25, dailyCost: 2, dailyRange: [1, 4] },
-  upgradeAnimal: 20,
-  upgradeCrop: 15,
+  cow: {
+    category: 'animals',
+    buy: 50,
+    dailyCost: 5,
+    dailyRange: [4, 10],
+    upgradeCost: 20  
+  },
+  pig: {
+    category: 'animals',
+    buy: 40,
+    dailyCost: 4,
+    dailyRange: [3, 8],
+    upgradeCost: 15  
+  },
+  corn: {
+    category: 'crops',
+    buy: 30,
+    dailyCost: 3,
+    dailyRange: [2, 6],
+    upgradeCost: 10  
+  },
+  wheat: {
+    category: 'crops',
+    buy: 25,
+    dailyCost: 2,
+    dailyRange: [1, 4],
+    upgradeCost: 8  
+  }
 };
 
 const nightEvents = [
@@ -21,3 +42,4 @@ const dayEvents = [
 
 export { prices, nightEvents, dayEvents };
 export default prices;
+

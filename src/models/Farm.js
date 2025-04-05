@@ -1,53 +1,47 @@
-import { Animal } from './Animal';
-import { Crop } from './Crop';
+import { FarmGood } from './FarmGood.js';  // Import the FarmGood class
 
 class Farm {
   constructor(name) {
     this.name = name;
-    this.money = 1000;
-    this.animals = [];
-    this.crops = [];
+    this.money = 1000; // Starting money
+    this.animals = [];  // Ensure animals is always an array
+    this.crops = [];    // Ensure crops is always an array
+    this.goods = [];    // Store both animals and crops here
   }
 
-  // Add an animal to the farm
-  addAnimal(name) {
-    const animal = new Animal(name);
-    this.animals.push(animal);
-    return animal;
+  // Add a good (either animal or crop) to the farm
+  addGood(name, category) {
+    const good = new FarmGood(name, category);  // Category will determine if it's an animal or crop
+    this.goods.push(good);
+    return good;
   }
 
-  // Add a crop to the farm
-  addCrop(name) {
-    const crop = new Crop(name);
-    this.crops.push(crop);
-    return crop;
-  }
+  // Calculate daily costs and income for all goods (both animals and crops)
+  produce(logs) {
+  let totalIncome = 0;
 
-  cropsProduce(logs) {
-    this.crops.forEach(crop => {
-      const value = crop.getYield();
-      this.money += value;
-      logs.push(`🌾 ${crop.name} yielded +$${value}`);
-    });
-  }
+  // Loop over all goods (both animals and crops)
+  this.goods.forEach((good) => {
+    // Deduct daily cost for each good (animal or crop)
+    this.money -= good.dailyCost;
+    logs.push(`${good.category === 'animals' ? '🐄' : '🌾'} ${good.name} daily cost: -$${good.dailyCost}`);
 
-  animalsProduce(logs) {
-    this.animals.forEach(animal => {
-      const value = animal.getProductValue();
-      this.money += value;
-      logs.push(`🐖 ${animal.name} produced +$${value}`);
-    });
-  }
+    // Generate daily income for each good (based on daily range)
+    const dailyIncome = good.getDailyIncome();
+    this.money += dailyIncome;
+    totalIncome += dailyIncome;
+    logs.push(`${good.category === 'animals' ? '🐄' : '🌾'} ${good.name} produced: +$${dailyIncome}`);
+  });
 
+  return totalIncome;
+}
   // Static method to initialize a farm from saved data
   static fromJSON(data) {
     const farm = new Farm(data.name);
     farm.money = data.money;
-    farm.animals = data.animals.map(a => new Animal(a.name));  // Recreate animal objects
-    farm.crops = data.crops?.map(c => new Crop(c.name)) || [];  // Recreate crop objects
+    farm.goods = data.goods.map(g => new FarmGood(g.name, g.category));  // Recreate FarmGood objects
     return farm;
   }
 }
 
 export { Farm };
-
