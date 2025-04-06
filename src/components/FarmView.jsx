@@ -87,18 +87,21 @@ export default function FarmView({
           <Paper elevation={3} sx={{ p: 2 }}>
             <Typography variant="h6">🐄 Animals</Typography>
             <Grid container spacing={2}>
-              {farm.goods.filter(good => good.category === 'animals').map((good, i) => (
-                <Grid item xs={12} sm={6} md={3} key={i}>
-                  <Stack direction="row" spacing={2} alignItems="center">
-                    <Avatar src={getImage(good.name)} alt={good.name} />
-                    <Typography>{good.name} (Lvl {good.multiplier})</Typography>
-                    {good.multiplier > 1 && <img src={sparkle} alt="upgraded" width={16} />}
-                    <Button size="small" variant="outlined" onClick={() => onUpgradeGood(i)}>
-                      🆙 Upgrade (${good.upgradeCost})
-                    </Button>
-                  </Stack>
-                </Grid>
-              ))}
+              {Array.isArray(farm.goods) && farm.goods.filter(good => good.category === 'animals').map((good, i, filteredGoods) => {
+                const originalIndex = farm.goods.indexOf(filteredGoods[i]);
+                return (
+                  <Grid item xs={12} sm={6} md={3} key={originalIndex}>
+                    <Stack direction="row" spacing={2} alignItems="center">
+                      <Avatar src={getImage(good.name)} alt={good.name} />
+                      <Typography>{good.name} (Lvl {good.multiplier})</Typography>
+                      {good.multiplier > 1 && <img src={sparkle} alt="upgraded" width={16} />}
+                      <Button size="small" variant="outlined" onClick={() => onUpgradeGood(originalIndex)}>
+                        🆙 Upgrade (${good.upgradeCost})
+                      </Button>
+                    </Stack>
+                  </Grid>
+                );
+              })}
             </Grid>
           </Paper>
         </Grid>
@@ -108,18 +111,21 @@ export default function FarmView({
           <Paper elevation={3} sx={{ p: 2 }}>
             <Typography variant="h6">🌾 Crops</Typography>
             <Grid container spacing={2}>
-              {farm.goods.filter(good => good.category === 'crops').map((good, i) => (
-                <Grid item xs={12} sm={6} md={3} key={i}>
-                  <Stack direction="row" spacing={2} alignItems="center">
-                    <Avatar src={getImage(good.name)} alt={good.name} />
-                    <Typography>{good.name} (Lvl {good.multiplier})</Typography>
-                    {good.multiplier > 1 && <img src={sparkle} alt="upgraded" width={16} />}
-                    <Button size="small" variant="outlined" onClick={() => onUpgradeGood(i)}>
-                      🌟 Upgrade (${good.upgradeCost})
-                    </Button>
-                  </Stack>
-                </Grid>
-              ))}
+              {Array.isArray(farm.goods) && farm.goods.filter(good => good.category === 'crops').map((good, i, filteredGoods) => {
+                const originalIndex = farm.goods.indexOf(filteredGoods[i]);
+                return (
+                  <Grid item xs={12} sm={6} md={3} key={originalIndex}>
+                    <Stack direction="row" spacing={2} alignItems="center">
+                      <Avatar src={getImage(good.name)} alt={good.name} />
+                      <Typography>{good.name} (Lvl {good.multiplier})</Typography>
+                      {good.multiplier > 1 && <img src={sparkle} alt="upgraded" width={16} />}
+                      <Button size="small" variant="outlined" onClick={() => onUpgradeGood(originalIndex)}>
+                        🌟 Upgrade (${good.upgradeCost})
+                      </Button>
+                    </Stack>
+                  </Grid>
+                );
+              })}
             </Grid>
           </Paper>
         </Grid>
