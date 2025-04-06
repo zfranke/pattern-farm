@@ -127,7 +127,7 @@ export default function App() {
     }
   };
 
-  const addGood = (type, category) => {
+  const addGood = (type) => {
     const cost = prices[type.toLowerCase()]?.buy || 0;
     if (farm.money >= cost) {
       const newGood = new FarmGood(type);  // Create a new FarmGood (either animal or crop)
