@@ -111,6 +111,22 @@ const nextCycle = () => {
   setDay((prev) => prev + 1);  // Proceed to next day
 };
 
+// Upgrade a good
+const upgradeGood = (index) => {
+  const good = farm.goods[index];
+  const upgradeCost = good.upgradeCost || 0;  // Get the upgrade cost from the good
+
+  if (farm.money >= upgradeCost) {
+    good.upgrade();  // Upgrade the good (either animal or crop)
+    farm.money -= upgradeCost;  // Deduct the upgrade cost from farm money
+    setFarm({ ...farm });
+    setGameLogs((prev) => [...prev, `🔧 Upgraded ${good.name} to level ${good.multiplier} (-$${upgradeCost})`]);
+  }
+  else {
+    setSystemLogs((prev) => [...prev, `❌ Not enough money to upgrade ${good.name} (${upgradeCost})`]);
+  }
+};
+
 
 
 
@@ -141,7 +157,9 @@ const nextCycle = () => {
             systemLogs={systemLogs}
             day={day}
             onNextDay={nextCycle}
-            onAddGood={addGood}  // Use the unified addGood function for both animals and crops
+            onAddGood={addGood} 
+            onUpgradeGood={upgradeGood}
+            onShowAbout={showAboutSection}
           />
           <Controls onSave={() => setIsSaveLoadDialogOpen(true)} onReset={resetFarm} />
         </div>

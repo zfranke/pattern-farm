@@ -24,6 +24,17 @@ class FarmGood {
     const [min, max] = this.dailyRange;
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
+
+  // Method to upgrade the good, keep it all integers
+  upgrade() {
+    if (this.upgradeCost > 0) {
+      this.dailyCost += Math.floor(this.dailyCost * 0.1); // Increase daily cost by 10%
+      this.dailyRange[0] += Math.floor(this.dailyRange[0] * 0.1); // Increase min range by 10%
+      this.dailyRange[1] += Math.floor(this.dailyRange[1] * 0.1); // Increase max range by 10%
+      this.upgradeCost = Math.floor(this.upgradeCost * 1.5); // Increase upgrade cost by 50%
+    }
+    
+  }
 }
 
 export { FarmGood };

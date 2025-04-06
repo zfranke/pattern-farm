@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, MenuItem } from '@mui/material';
-import { Typography, Paper, Divider, Button, Stack, Avatar, Box, Grid, Container } from '@mui/material';
+import { Typography, Paper, Button, Stack, Avatar, Box, Grid, Container } from '@mui/material';
 import prices from '../config/gameConfig';
 
 const getImage = (type) => {
@@ -80,25 +80,52 @@ export default function FarmView({
         </Box>
       </Paper>
 
+      {/* Animals and Crops display */}
       <Grid container spacing={3}>
-        <Grid item xs={12}>
+        {/* Display Animals */}
+        <Grid item xs={12} sm={6} md={6}>
           <Paper elevation={3} sx={{ p: 2 }}>
-            <Typography variant="h6">Farm Goods</Typography>
-            <Stack spacing={1} mt={1}>
-              {farm.goods.map((good, i) => (
-                <Stack key={i} direction="row" spacing={2} alignItems="center">
-                  <Avatar src={getImage(good.name)} alt={good.name} />
-                  <Typography>{good.name} (Lvl {good.multiplier}) {good.multiplier > 1 && <img src={sparkle} alt="upgraded" width={16} style={{ display: 'inline' }} />}</Typography>
-                  <Button size="small" variant="outlined" onClick={() => onUpgradeGood(i)}>
-                    🆙 Upgrade (${good.upgradeCost})
-                  </Button>
-                </Stack>
+            <Typography variant="h6">🐄 Animals</Typography>
+            <Grid container spacing={2}>
+              {farm.goods.filter(good => good.category === 'animals').map((good, i) => (
+                <Grid item xs={12} sm={6} md={3} key={i}>
+                  <Stack direction="row" spacing={2} alignItems="center">
+                    <Avatar src={getImage(good.name)} alt={good.name} />
+                    <Typography>{good.name} (Lvl {good.multiplier})</Typography>
+                    {good.multiplier > 1 && <img src={sparkle} alt="upgraded" width={16} />}
+                    <Button size="small" variant="outlined" onClick={() => onUpgradeGood(i)}>
+                      🆙 Upgrade (${good.upgradeCost})
+                    </Button>
+                  </Stack>
+                </Grid>
               ))}
-            </Stack>
+            </Grid>
+          </Paper>
+        </Grid>
+
+        {/* Display Crops */}
+        <Grid item xs={12} sm={6} md={6}>
+          <Paper elevation={3} sx={{ p: 2 }}>
+            <Typography variant="h6">🌾 Crops</Typography>
+            <Grid container spacing={2}>
+              {farm.goods.filter(good => good.category === 'crops').map((good, i) => (
+                <Grid item xs={12} sm={6} md={3} key={i}>
+                  <Stack direction="row" spacing={2} alignItems="center">
+                    <Avatar src={getImage(good.name)} alt={good.name} />
+                    <Typography>{good.name} (Lvl {good.multiplier})</Typography>
+                    {good.multiplier > 1 && <img src={sparkle} alt="upgraded" width={16} />}
+                    <Button size="small" variant="outlined" onClick={() => onUpgradeGood(i)}>
+                      🌟 Upgrade (${good.upgradeCost})
+                    </Button>
+                  </Stack>
+                </Grid>
+              ))}
+            </Grid>
           </Paper>
         </Grid>
       </Grid>
 
+      {/* Logs */}
       <Grid container spacing={3} mt={1} mb={2}>
         <Grid item xs={12} md={6}>
           <Paper elevation={2} sx={{ p: 2 }}>
